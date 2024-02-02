@@ -1,4 +1,4 @@
-# Aplikacja do zadawania pyta do bazy danych w języku QBE
+# Aplikacja do zadawania pytań do bazy danych w języku QBE
 Intuicyjna aplikacja QBE do zarządzania bazą danych szkolnej w Pythonie, z funkcją zaawansowanego wyszukiwania i eksportu danych.
 
 # School Database Management - QBE Application
