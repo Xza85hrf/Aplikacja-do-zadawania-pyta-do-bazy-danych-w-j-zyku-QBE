@@ -1,0 +1,21 @@
+anyio @ file:///home/conda/feedstock_root/build_artifacts/anyio_1702909220329/work
+certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1700303426725/work/certifi
+cffi @ file:///D:/bld/cffi_1696001730392/work
+chardet==5.2.0
+cryptography @ file:///D:/bld/cryptography-split_1701563375088/work
+dnspython @ file:///home/conda/feedstock_root/build_artifacts/dnspython_1705762989754/work
+exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1704921103267/work
+h11 @ file:///home/conda/feedstock_root/build_artifacts/h11_1664132893548/work
+h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1634280454336/work
+hpack==4.0.0
+httpcore @ file:///home/conda/feedstock_root/build_artifacts/httpcore_1699629103338/work
+hyperframe @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1619110129307/work
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1701026962277/work
+mysql-connector-python==8.2.0
+Pillow==10.1.0
+protobuf==4.21.12
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1636257122734/work
+reportlab==4.0.8
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+sniffio @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1662051266223/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1702176139754/work
