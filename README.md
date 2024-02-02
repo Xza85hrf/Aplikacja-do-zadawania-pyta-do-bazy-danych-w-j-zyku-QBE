@@ -5,7 +5,7 @@ Intuicyjna aplikacja QBE do zarządzania bazą danych szkolnej w Pythonie, z fun
 
 ## Opis
 
-Aplikacja "School Database Management" to narzędzie do zarządzania bazą danych szkolnej z wykorzystaniem języka Query by Example (QBE). Została stworzona w języku Python i umożliwia intuicyjne tworzenie zapytań do bazy danych bez konieczności znajomości SQL.
+Aplikacja "School Database Management" to przykładowe narzędzie do zarządzania bazą danych szkolnej z wykorzystaniem języka Query by Example (QBE). Została stworzona w języku Python i umożliwia intuicyjne tworzenie zapytań do bazy danych bez konieczności znajomości SQL i QBE.
 
 ## Funkcje
 
