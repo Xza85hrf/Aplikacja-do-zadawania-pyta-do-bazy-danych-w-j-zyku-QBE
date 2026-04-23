@@ -3,6 +3,26 @@ Intuicyjna aplikacja QBE do zarządzania bazą danych szkolnej w Pythonie, z fun
 
 # School Database Management - QBE Application
 
+## Quick Start
+
+Prerequisite: a running MySQL server on `localhost` and Python 3.10+.
+
+```bash
+# 1. Create the database, user, and schema in one shot
+mysql -u root -p < school.sql
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Launch the app
+python QBESchool.py
+```
+
+The bundled `school.sql` creates a database named `school`, a MySQL user `QBE`
+with password `qbe`, and all required tables — matching the defaults that
+`QBESchool.py` connects with. If you want to use different credentials, edit
+the `db_connect()` call at the top of `QBESchool.py`.
+
 ## Opis
 
 Aplikacja "School Database Management" to przykładowe narzędzie do zarządzania bazą danych szkolnej z wykorzystaniem języka Query by Example (QBE). Została stworzona w języku Python i umożliwia intuicyjne tworzenie zapytań do bazy danych bez konieczności znajomości SQL i QBE.
