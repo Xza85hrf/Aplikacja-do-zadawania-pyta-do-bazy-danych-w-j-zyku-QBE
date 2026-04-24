@@ -7,8 +7,22 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 
 # Zmienna globalna do przechowywania okna zaawansowanego wyszukiwania
-global advanced_search_window
 advanced_search_window = None
+
+# Widzety aplikacji - inicjalizowane w main(), do patchowania w testach
+root = None
+treeview = None
+status_bar = None
+table_select_combo = None
+table_select_label = None
+qbe_query_entry = None
+qbe_query_label = None
+qbe_query_button = None
+export_button = None
+advanced_search_button = None
+language_label = None
+language_menu = None
+current_language = "English"
 
 
 # Funkcja do nawiazywania polaczenia z baza danych
@@ -34,7 +48,8 @@ def fetch_data_from_table(table_name):
         return rows
     except mysql.connector.Error as err:
         # Wyswietlenie komunikatu o bledzie na pasku stanu
-        status_bar.config(text=f"Error: {err}")
+        if status_bar is not None:
+            status_bar.config(text=f"Error: {err}")
         return []
 
 
@@ -160,7 +175,8 @@ def export_to_pdf(file_path, data):
         doc.build(elements)
     except Exception as e:
         # Obsluga bledu przy generowaniu PDF
-        status_bar.config(text=f"Error in exporting PDF: {e}")
+        if status_bar is not None:
+            status_bar.config(text=f"Error in exporting PDF: {e}")
 
 
 # Funkcja otwierania okna zaawansowanego wyszukiwania
@@ -406,75 +422,85 @@ def change_language(language):
     status_bar.config(text=labels["ready"])
 
 
-# Konfiguracja głównego okna aplikacji
-root = tk.Tk()
-root.title(english_labels["title"])
-root.geometry("800x600")
+def main():
+    """Konstrukcja GUI i uruchomienie glownej petli zdarzen."""
+    global root, treeview, status_bar, table_select_combo, table_select_label
+    global qbe_query_entry, qbe_query_label, qbe_query_button
+    global export_button, advanced_search_button, language_label, language_menu
 
-# Obszar wyboru tabeli
-table_select_label = tk.Label(root, text=english_labels["select_table"])
-table_select_label.pack(pady=5)
-table_select_combo = ttk.Combobox(
-    root,
-    state="readonly",
-    values=[
-        "Students",
-        "Teachers",
-        "Courses",
-        "Grades",
-        "Classrooms",
-        "Subjects",
-        "Attendance",
-        "SchoolEvents",
-        "ParentGuardian",
-    ],
-)
-table_select_combo.pack(pady=5)
-table_select_combo.bind("<<ComboboxSelected>>", on_table_select)
+    # Konfiguracja głównego okna aplikacji
+    root = tk.Tk()
+    root.title(english_labels["title"])
+    root.geometry("800x600")
 
-# Konfiguracja widoku drzewa (TreeView)
-treeview = ttk.Treeview(root)
-treeview.pack(expand=True, fill="both", padx=10, pady=10)
-setup_treeview()
+    # Obszar wyboru tabeli
+    table_select_label = tk.Label(root, text=english_labels["select_table"])
+    table_select_label.pack(pady=5)
+    table_select_combo = ttk.Combobox(
+        root,
+        state="readonly",
+        values=[
+            "Students",
+            "Teachers",
+            "Courses",
+            "Grades",
+            "Classrooms",
+            "Subjects",
+            "Attendance",
+            "SchoolEvents",
+            "ParentGuardian",
+        ],
+    )
+    table_select_combo.pack(pady=5)
+    table_select_combo.bind("<<ComboboxSelected>>", on_table_select)
 
-# Obszar zapytan QBE
-qbe_query_frame = tk.Frame(root)
-qbe_query_frame.pack(pady=10)
-qbe_query_label = tk.Label(qbe_query_frame, text=english_labels["enter_query"])
-qbe_query_label.grid(row=0, column=0, padx=5)
-qbe_query_entry = tk.Entry(qbe_query_frame, width=50)
-qbe_query_entry.grid(row=0, column=1, padx=5)
-qbe_query_button = tk.Button(
-    qbe_query_frame, text=english_labels["execute_query"], command=execute_qbe_query
-)
-qbe_query_button.grid(row=0, column=2, padx=5)
+    # Konfiguracja widoku drzewa (TreeView)
+    treeview = ttk.Treeview(root)
+    treeview.pack(expand=True, fill="both", padx=10, pady=10)
+    setup_treeview()
 
-# Przyciski eksportu i wyszukiwania zaawansowanego
-export_button = tk.Button(root, text=english_labels["export_data"], command=export_data)
-export_button.pack(pady=5)
-advanced_search_button = tk.Button(
-    root, text=english_labels["advanced_search"], command=open_advanced_search
-)
-advanced_search_button.pack(pady=5)
+    # Obszar zapytan QBE
+    qbe_query_frame = tk.Frame(root)
+    qbe_query_frame.pack(pady=10)
+    qbe_query_label = tk.Label(qbe_query_frame, text=english_labels["enter_query"])
+    qbe_query_label.grid(row=0, column=0, padx=5)
+    qbe_query_entry = tk.Entry(qbe_query_frame, width=50)
+    qbe_query_entry.grid(row=0, column=1, padx=5)
+    qbe_query_button = tk.Button(
+        qbe_query_frame, text=english_labels["execute_query"], command=execute_qbe_query
+    )
+    qbe_query_button.grid(row=0, column=2, padx=5)
 
-# Menu wyboru jezyka
-language_label = tk.Label(
-    root, text=english_labels.get("change_language ", "Change Language: ")
-)
-language_label.place(relx=0.8, rely=0.01, anchor="ne")
+    # Przyciski eksportu i wyszukiwania zaawansowanego
+    export_button = tk.Button(root, text=english_labels["export_data"], command=export_data)
+    export_button.pack(pady=5)
+    advanced_search_button = tk.Button(
+        root, text=english_labels["advanced_search"], command=open_advanced_search
+    )
+    advanced_search_button.pack(pady=5)
 
-language_menu = ttk.Combobox(
-    root, values=["English", "Polish"], state="readonly", width=10
-)
-language_menu.place(relx=0.9, rely=0.01, anchor="ne")
-language_menu.bind(
-    "<<ComboboxSelected>>", lambda _: change_language(language_menu.get())
-)
+    # Menu wyboru jezyka
+    language_label = tk.Label(
+        root, text=english_labels.get("change_language ", "Change Language: ")
+    )
+    language_label.place(relx=0.8, rely=0.01, anchor="ne")
 
-# Pasek stanu
-status_bar = tk.Label(
-    root, text=english_labels["ready"], bd=1, relief=tk.SUNKEN, anchor=tk.W
-)
-status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+    language_menu = ttk.Combobox(
+        root, values=["English", "Polish"], state="readonly", width=10
+    )
+    language_menu.place(relx=0.9, rely=0.01, anchor="ne")
+    language_menu.bind(
+        "<<ComboboxSelected>>", lambda _: change_language(language_menu.get())
+    )
 
-root.mainloop()
+    # Pasek stanu
+    status_bar = tk.Label(
+        root, text=english_labels["ready"], bd=1, relief=tk.SUNKEN, anchor=tk.W
+    )
+    status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
